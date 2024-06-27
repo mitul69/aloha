@@ -1,70 +1,86 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, ScrollView, ImageBackground, SafeAreaView, View, FlatList } from 'react-native';
+import Header from '@/components/Header';
+import { Colors } from '@/constants/Colors';
+import AppText from '@/components/AppText';
+import CategoryItem from '@/components/CategoryItem';
+import TravelGuidCard from '@/components/TravelGuidCard';
+import AppButton from '@/components/AppButton';
+import Categories from '@/components/Categories';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <SafeAreaView style={styles.mainContainer}>
+      <Header />
+      <ScrollView style={styles.scrollView}>
+        <ImageBackground
+          source={require("@/assets/images/hawaii.png")}
+          style={styles.backroundImage}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <AppText text='Highlights' fontWeight='700' />
+          </View>
+          <FlatList
+            style={styles.sliderContainer}
+            horizontal
+            data={['1', '2', '3', '4']}
+            renderItem={(item) => <CategoryItem item={item} />}
+            keyExtractor={item => item}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <View style={styles.categoriesContainer}>
+
+          <Categories />
+          <TravelGuidCard />
+
+        </View>
+      </ScrollView >
+      <View style={styles.bookTripButtonContainer}>
+        <AppButton text="Book a trip" buttonStyle="filled" />
+      </View>
+    </SafeAreaView >
+
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  mainContainer: {
+    backgroundColor: Colors.background,
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  scrollView: {
+    flex: 1,
+    height: 100,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
+  headerContainer: {
+    padding: 16,
+  },
+  backroundImage: {
+    width: "100%",
+    height: 480
+  },
+  container: {
+    marginTop: 30,
+  },
+  sliderContainer: {
+    marginTop: 10,
+    marginBottom: 20
+  },
+  categoriesContainer: {
+    backgroundColor: Colors.seecondary,
+    padding: 20,
+    marginTop: 20,
+    paddingBottom: 100
+  },
+  categoriesHeadingContainer: {
+    marginTop: 20,
+    marginBottom: 10
+  },
+  bookTripButtonContainer: {
+    position: "absolute",
     bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+    padding: 16,
+    width: "100%"
+  }
 });
